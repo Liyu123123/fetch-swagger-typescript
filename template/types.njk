@@ -1,0 +1,20 @@
+// @ts-ignore
+/* eslint-disable */
+declare namespace {{namespace}} {
+   {%- for amount in list %}
+    type {{amount.name}} = {
+        {%- for prop in amount.properties %}
+        {% if amount.isAny %}
+        {{prop.name}} : {{prop.types}}
+        {% else -%}
+        {% if prop.desc -%}
+        /**{{ prop.desc }} */
+        {% endif -%}
+        {{prop.name+'?'}} : {{prop.types -}}
+        {% endif -%}
+      {%- endfor %}
+    }
+    {%- endfor %}
+}
+
+

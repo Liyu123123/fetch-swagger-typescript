@@ -1,0 +1,42 @@
+// @ts-ignore
+/* eslint-disable */
+{{ requestImportStatement }}
+{# {{typesT.XfCustomXeszRecordController}} #}
+{% for api in list -%}
+  /*{{api.summary}}*/
+  export async function {{ api.fnName }} (
+   {%- if api.parameters  %}
+      params:{
+        {% for param in api.parameters -%}
+        {{param.name}}{{ "?" if not param.required }} : {{param.type}},
+        {% endfor -%}
+      },
+  {% endif -%}
+     {%- if api.getFormDataParamters  -%}
+      data:FormData,
+  {% endif -%}
+     {%- if api.bodyParamters  -%}
+      data:{
+        {% for param in api.bodyParamters -%}
+        {{param.name}}{{ "?" if not param.required }} : {{param.type}},
+        {% endfor -%}
+      }
+  {% endif -%}
+  ):  Promise{{("<" + api.ajaxResultName + ">")}}
+  {
+    return request('{{api.url}}',{
+      method:'{{api.method}}',
+      {%- if api.parameters  %}
+      params:{
+        ...params
+      },
+  {% endif -%}
+     {%- if api.getFormDataParamters  -%}
+      data,
+  {% endif -%}
+     {%- if api.bodyParamters  -%}
+      data: data.{{api.bodyParamters[0].name}}
+  {% endif -%}
+    })
+  }
+{% endfor -%}
