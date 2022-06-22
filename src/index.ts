@@ -16,6 +16,7 @@ const getOpenApiRequest = async (schemaPath: string) => {
     console.error(e);
   }
 };
+console.log(123)
 
 /** 根据ControllerName收集Paths */
 const collectPathsByControllerName = (paths: any, controllerName: any) => {
